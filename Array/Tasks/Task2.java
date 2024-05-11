@@ -37,6 +37,33 @@ public class Task2 {
 
     }
 
+    static void salesReport(int arr[][]){
+        Scanner sc = new Scanner(System.in);
+        int s;
+        int e;
+        int total = 0;
+
+        System.out.println("Enter the starting day: ");
+        s = sc.nextInt();
+        System.out.println("Enter the ending day: ");
+        e = sc.nextInt();
+
+        if (s < 1 || e > 3) {
+            System.out.println("Day out of range!!!");
+        }else{
+            for (int i = s-1; i < e; i++) {
+                for (int j = 0; j < 7; j++) {
+                    total += arr[i][j]; 
+                }
+                System.out.println("Day "+(i+1)+" total sale: "+total);
+                total = 0;
+            }
+        }
+
+
+        sc.close();
+    }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -65,7 +92,7 @@ public class Task2 {
                 break;
 
             case 3:
-                salesReport();
+                salesReport(arr);
                 break;
 
             default:
