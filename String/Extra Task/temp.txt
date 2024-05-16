@@ -1,0 +1,5 @@
+Task:
+
+take a array
+array = ["String",23.5,c,@,22.2,30,47,"Mohak","Royal","Dhulo",71,4.2,77,0.1,#,&,**,"mobile"]
+
