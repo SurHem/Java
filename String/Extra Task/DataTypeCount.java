@@ -33,6 +33,5 @@ public class DataTypeCount {
         System.out.println("Number of Float in array: "+flo);
         System.out.println("Number of Integer in array: "+inte);
         System.out.println("Number of Special in array: "+spe);
-
     }
 }
