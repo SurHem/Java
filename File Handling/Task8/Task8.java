@@ -1,47 +1,65 @@
-// 8. Problem statement: Create a Java application to serialize and deserialize objects to/from a file using ObjectInputStream and ObjectOutputStream.
-
-//    Test Case:
-//    - Input: Object to serialize: Employee{name="John", age=30, department="IT"}
-
-//    - Output: Serialized object saved to file "employee.ser"
-
-//    - Input: Serialized object file "employee.ser"
-
-//    - Output: Deserialized object: Employee{name="John", age=30, department="IT"}
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+
+class Employee implements Serializable{
+    private String name;
+    private int age;
+    private String department;
+
+    public Employee(String name , int age , String department){
+        this.name = name;
+        this.age = age;
+        this.department = department; 
+    }
+
+    @Override
+
+    public String toString(){
+        return "Employee{ Name: '" + name + "', age = " + age + ", Department: '" + department + "' }";
+    }
+}
+
 
 public class Task8{
-    public static void main(String[] args) {
-        FileInputStream in = null;
-        FileOutputStream out = null;
 
 
-        try{
-            in = new FileInputStream("input.txt");
-            out = new FileOutputStream("employees.ser");
-            int c;
+    public static void main(String[] args){
+        Employee emp = new Employee("Jhon", 15, "Sales");
 
-            while ((c = in.read()) != -1) {
-                out.write(c);
-            }
+        serializeObject(emp, "employee.ser");
 
-            System.out.println("Serialized object saved to file \"employees.ser\"");
+        Employee deserializedEmp = deserializeObject("employee.ser");
+        
+        System.out.println(deserializedEmp);
+    
+    }
 
-            in.close();
-            out.close();
 
-            in = new FileInputStream("employees.ser");
 
-            System.out.println("\nDeserialized Object: ");
 
-            while ((c = in.read()) != -1) {
-                System.out.print((char)c);
-            }
-
-        }catch(Exception e){
+    
+    public static void serializeObject(Employee emp , String fileName){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(emp);
+            System.out.println("Object serialized successfully!");
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Employee deserializeObject(String fileName){
+        Employee emp = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            emp = (Employee) ois.readObject();
+            System.out.println("Object deserialized successfully!");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return emp;
     }
 }

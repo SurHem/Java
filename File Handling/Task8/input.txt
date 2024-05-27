@@ -1,1 +1,0 @@
-Employee{name="John", age=30, department="IT"}
