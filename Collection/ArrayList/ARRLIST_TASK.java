@@ -38,25 +38,39 @@ class RestaurantMenu {
 
 class Order {
     private ArrayList<MenuItem> items;
+    private ArrayList<Integer> quantity;
 
     public Order() {
         items = new ArrayList<>();
+        quantity = new ArrayList<>();
     }
 
-    public void addItem(MenuItem item) {
+    public void addItem(MenuItem item , int quan) {
         items.add(item);
+        quantity.add(quan);
     }
 
     public double calculateTotal() {
         double total = 0;
-        for (MenuItem menuItem : items) {
-            total += menuItem.getPrice();
+
+        for (int i = 0; i < items.size(); i++) {
+            int quan = quantity.get(i);
+            MenuItem item = items.get(i);
+            total += (item.getPrice()*quan);
         }
+
+        // for (MenuItem menuItem : items) {
+        //     total += menuItem.getPrice();
+        // }
         return total;
     }
 
     public ArrayList<MenuItem> getItems() {
         return items;
+    }
+
+    public ArrayList<Integer> getQuantity(){
+        return quantity;
     }
 }
 
@@ -113,9 +127,11 @@ public class ARRLIST_TASK {
         displayMenu(restaurantMenu);
         System.out.print("\nEnter the number of the item to add your order: ");
         int itemNumber = sc.nextInt();
+        System.out.println("Enter the quantity: ");
+        int quan = sc.nextInt();
         ArrayList<MenuItem> menuItems = restaurantMenu.getMenuItems();
-        if(itemNumber >= 1 && itemNumber <= menuItems.size()) {
-            order.addItem(menuItems.get(itemNumber - 1));
+        if(itemNumber >= 1 && itemNumber <= menuItems.size() && quan > 0) {
+            order.addItem(menuItems.get(itemNumber - 1),quan);
             System.out.println("Item added to your order.");
         } else {
             System.out.println("Invalid item number.");
@@ -125,9 +141,15 @@ public class ARRLIST_TASK {
     public static void viewOrder(Order order) {
         System.out.println("\nYour Order: ");
         ArrayList<MenuItem> items = order.getItems();
-        for(MenuItem item : items) {
-            System.out.println("-> " + item.getName() + ": Rs." + item.getPrice());
+        ArrayList<Integer> quantity = order.getQuantity();
+        for (int i = 0; i < items.size(); i++) {
+            MenuItem item = items.get(i);
+            int quan = quantity.get(i);
+            System.out.println("-> " + item.getName() + ": Quantity:" + quan + " : Per. Rs." + item.getPrice());
         }
+        // for(MenuItem item : items) {
+        //     System.out.println("-> " + item.getName() + ": Rs." + item.getPrice());
+        // }
         System.out.println("Total Cost: Rs." + order.calculateTotal());
     }
 }
